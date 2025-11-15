@@ -59,7 +59,7 @@ RUN git clone --recursive https://github.com/vapoursynth/vapoursynth.git && \
 # --- Install IA Tool (Real-ESRGAN e RIFE) ---
 #---------------------------------------------
 WORKDIR /opt
-RUN https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan.git
+RUN git clone https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan.git
 COPY fix/.gitmodules /opt/Real-ESRGAN-ncnn-vulkan/.gitmodules # Change ssh clone to HTTPS clone
 RUN cd Real-ESRGAN-ncnn-vulkan && \
     git submodule update --init --recursive  && \
