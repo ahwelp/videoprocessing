@@ -9,11 +9,17 @@ ENV LANG=C.UTF-8
 # ----------------------------------------------
 RUN pacman -Syu --noconfirm && \
     pacman -S --noconfirm \
-        base-devel git python wget unzip cmake ninja meson nasm yasm \
+        base-devel git sudo vim python wget unzip cmake ninja meson nasm yasm \
         vulkan-icd-loader vulkan-radeon vulkan-headers opencl-mesa clinfo \
         python-pip python-numpy python-wheel python-setuptools \
         zlib libjpeg-turbo libpng gcc make pkgconf openssh cython \
         x264 x265 libvpx opus libvorbis lame libfdk-aac libass freetype2 libpng openjpeg2
+
+# Cria usuário para compilar pacotes
+RUN useradd -m builder && \
+    echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER builder
 
 # ----------------------------------
 # --- Install FFmpeg Version 7.1 ---
@@ -24,6 +30,9 @@ RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1 && \
         git config --add core.filemode false && \
         chmod -R 777 /tmp/ffmpeg7.1 && \
         makepkg -si --noconfirm
+
+# Voltar para root
+USER root
 
 #------------------------------
 # --- Install Python vsutil ---
@@ -64,7 +73,7 @@ RUN git clone https://github.com/nihui/rife-ncnn-vulkan.git && \
 #---------------------------------------
 # --- Creating folders and structure ---
 #---------------------------------------
-RUN mkdir -p /workspace/source_videos /workspace/restored_videos /workspace/plugins /workspace/scripts
+RUN mkdir -p /workspace/source_videos /workspace/restored_videos /workspace/plugins /workspace/script
 
 #-------------------------------
 # --- Copy entrypoint script ---
