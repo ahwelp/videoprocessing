@@ -26,15 +26,12 @@ RUN useradd -m builder && \
 
 USER builder
 
-# Import Key
-RUN gpg --keyserver keyserver.ubuntu.com --recv-keys B18E8928B3948D64 
-
 WORKDIR /tmp
 RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1 && \
         cd /tmp/ffmpeg7.1 && \
         git config --add core.filemode false && \
         chmod -R 777 /tmp/ffmpeg7.1 && \
-        makepkg -si --noconfirm
+        makepkg -si --noconfirm --skippgpcheck
 
 # Back to Root User
 USER root
