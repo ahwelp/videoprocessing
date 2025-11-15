@@ -60,7 +60,7 @@ RUN git clone --recursive https://github.com/vapoursynth/vapoursynth.git && \
 #---------------------------------------------
 WORKDIR /opt
 RUN git clone https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan.git
-COPY fix/.gitmodules /opt/Real-ESRGAN-ncnn-vulkan/.gitmodules # Change ssh clone to HTTPS clone
+COPY fix/.gitmodules /opt/Real-ESRGAN-ncnn-vulkan/.gitmodules
 RUN cd Real-ESRGAN-ncnn-vulkan && \
     git submodule update --init --recursive  && \
     mkdir build && cd build && cmake ../src -DCMAKE_POLICY_VERSION_MINIMUM=3.5 && make -j$(nproc) && \
