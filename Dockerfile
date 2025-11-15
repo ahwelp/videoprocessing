@@ -15,15 +15,20 @@ RUN pacman -Syu --noconfirm && \
         zlib libjpeg-turbo libpng gcc make pkgconf openssh cython \
         x264 x265 libvpx opus libvorbis lame libfdk-aac libass freetype2 libpng openjpeg2
 
-# Cria usuário para compilar pacotes
+
+
+# ----------------------------------
+# --- Install FFmpeg Version 7.1 ---
+# ----------------------------------
+# Create builder user for makepkg
 RUN useradd -m builder && \
     echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER builder
 
-# ----------------------------------
-# --- Install FFmpeg Version 7.1 ---
-# ----------------------------------
+# Import Key
+RUN gpg --keyserver keyserver.ubuntu.com --recv-keys B18E8928B3948D64 
+
 WORKDIR /tmp
 RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1 && \
         cd /tmp/ffmpeg7.1 && \
@@ -31,7 +36,7 @@ RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1 && \
         chmod -R 777 /tmp/ffmpeg7.1 && \
         makepkg -si --noconfirm
 
-# Voltar para root
+# Back to Root User
 USER root
 
 #------------------------------
