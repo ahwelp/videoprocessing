@@ -16,7 +16,6 @@ RUN pacman -Syu --noconfirm && \
         x264 x265 libvpx opus libvorbis lame libfdk-aac libass freetype2 libpng openjpeg2
 
 
-
 # --------------------------------------------------
 # --- Install FFmpeg Version 7.1 With The Binary ---
 # --------------------------------------------------
@@ -29,8 +28,7 @@ RUN pacman -S --noconfirm \
     libvpx libwebp libx11 libxcb libxml2 libxv ocl-icd \
     opencore-amr openjpeg2 opus rav1e rubberband sdl2 \
     snappy speex srt svt-av1 v4l-utils vapoursynth \
-    vid.stab vmaf vulkan-icd-loader vmaf libx264 libx265 \
-    libzimg libzmq
+    vid.stab vmaf vulkan-icd-loader vmaf libx264
 
 CMD git clone -b release/7.1 https://github.com/FFmpeg/FFmpeg.git ffmpeg && \
     cd ffmpeg && \
