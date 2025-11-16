@@ -21,6 +21,10 @@ RUN pacman -Syu --noconfirm && \
 # --- Install FFmpeg Version 7.1 With The Binary ---
 # --------------------------------------------------
 
+# Cria usuário para compilar pacotes
+RUN useradd -m builder && \
+    echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 USER builder
 
 WORKDIR /tmp
