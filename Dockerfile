@@ -17,9 +17,9 @@ RUN pacman -Syu --noconfirm && \
 
 
 
-# ----------------------------------
-# --- Install FFmpeg Version 7.1 ---
-# ----------------------------------
+# --------------------------------------------------
+# --- Install FFmpeg Version 7.1 With The Binary ---
+# --------------------------------------------------
 # Create builder user for makepkg
 RUN useradd -m builder && \
     echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
@@ -27,7 +27,8 @@ RUN useradd -m builder && \
 USER builder
 
 WORKDIR /tmp
-RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1 && \
+RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1
+COPY fix/PKGBUILD /tmp/ffmpeg7.1/PKGBUILD
         cd /tmp/ffmpeg7.1 && \
         git config --add core.filemode false && \
         chmod -R 777 /tmp/ffmpeg7.1 && \
