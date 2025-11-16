@@ -86,6 +86,8 @@ RUN chmod +x /usr/local/bin/restore.sh
 
 WORKDIR /workspace
 
+RUN pacman -S --noconfirm rocm-opencl-runtime
+
 # Default entrypoint - Video restoration
 ENTRYPOINT ["/usr/local/bin/restore.sh"]
 
