@@ -20,22 +20,94 @@ RUN pacman -Syu --noconfirm && \
 # --------------------------------------------------
 # --- Install FFmpeg Version 7.1 With The Binary ---
 # --------------------------------------------------
-# Create builder user for makepkg
-RUN useradd -m builder && \
-    echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-USER builder
+RUN pacman -S --noconfirm \
+    alsa-lib aom avisynthplus bzip2 frei0r-plugins \
+    gmp jack lame libass libbluray libdrm libglvnd \
+    libiec61883 libjpeg-turbo libmodplug libpng librsvg \
+    libsoxr libssh libtheora libva libvdpau libvorbis \
+    libvpx libwebp libx11 libxcb libxml2 libxv ocl-icd \
+    opencore-amr openjpeg2 opus rav1e rubberband sdl2 \
+    snappy speex srt svt-av1 v4l-utils vapoursynth \
+    vid.stab vmaf vulkan-icd-loader vmaf libx264 libx265 \
+    libzimg libzmq
 
-WORKDIR /tmp
-RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1
-COPY fix/PKGBUILD /tmp/ffmpeg7.1/PKGBUILD
-RUN cd /tmp/ffmpeg7.1 && \
-        git config --add core.filemode false && \
-        chmod -R 777 /tmp/ffmpeg7.1 && \
-        makepkg -si --noconfirm --skippgpcheck
-
-# Back to Root User
-USER root
+CMD git clone -b release/7.1 https://github.com/FFmpeg/FFmpeg.git ffmpeg && \
+    cd ffmpeg && \
+    ./configure --prefix=/usr/local \
+    --disable-debug \
+    --disable-doc \
+    --disable-programs \
+    --disable-static \
+    --disable-stripping \
+    --enable-amf \
+    --enable-avisynth \
+    --enable-cuda-llvm \
+    --enable-lto \
+    --enable-fontconfig \
+    --enable-frei0r \
+    --enable-gmp \
+    --enable-gnutls \
+    --enable-gpl \
+    --enable-ladspa \
+    --enable-libaom \
+    --enable-libass \
+    --enable-libbluray \
+    --enable-libbs2b \
+    --enable-libdav1d \
+    --enable-libdrm \
+    --enable-libdvdnav \
+    --enable-libdvdread \
+    --enable-libfreetype \
+    --enable-libfribidi \
+    --enable-libglslang \
+    --enable-libgsm \
+    --enable-libharfbuzz \
+    --enable-libiec61883 \
+    --enable-libjack \
+    --enable-libjxl \
+    --enable-libmodplug \
+    --enable-libmp3lame \
+    --enable-libopencore_amrnb \
+    --enable-libopencore_amrwb \
+    --enable-libopenjpeg \
+    --enable-libopenmpt \
+    --enable-libopus \
+    --enable-libplacebo \
+    --enable-libpulse \
+    --enable-librav1e \
+    --enable-librsvg \
+    --enable-librubberband \
+    --enable-libsnappy \
+    --enable-libsoxr \
+    --enable-libspeex \
+    --enable-libsrt \
+    --enable-libssh \
+    --enable-libsvtav1 \
+    --enable-libtheora \
+    --enable-libv4l2 \
+    --enable-libvidstab \
+    --enable-libvmaf \
+    --enable-libvorbis \
+    --enable-libvpl \
+    --enable-libvpx \
+    --enable-libwebp \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libxcb \
+    --enable-libxml2 \
+    --enable-libxvid \
+    --enable-libzimg \
+    --enable-libzmq \
+    --enable-nvdec \
+    --enable-nvenc \
+    --enable-opencl \
+    --enable-opengl \
+    --enable-shared \
+    --enable-vapoursynth \
+    --enable-version3 \
+    --enable-vulkan && \
+    make && make install
 
 #------------------------------
 # --- Install Python vsutil ---
