@@ -29,7 +29,7 @@ USER builder
 WORKDIR /tmp
 RUN git clone https://aur.archlinux.org/ffmpeg7.1.git /tmp/ffmpeg7.1
 COPY fix/PKGBUILD /tmp/ffmpeg7.1/PKGBUILD
-        cd /tmp/ffmpeg7.1 && \
+RUN cd /tmp/ffmpeg7.1 && \
         git config --add core.filemode false && \
         chmod -R 777 /tmp/ffmpeg7.1 && \
         makepkg -si --noconfirm --skippgpcheck
