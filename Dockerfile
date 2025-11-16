@@ -21,16 +21,6 @@ RUN pacman -Syu --noconfirm && \
 # --- Install FFmpeg Version 7.1 With The Binary ---
 # --------------------------------------------------
 
-RUN pacman -S --noconfirm alsa-lib aom avisynthplus bzip2 frei0r-plugins \
-  gmp jack lame libass libbluray libdrm libglvnd \
-  libiec61883 libjpeg-turbo libmodplug libpng librsvg \
-  libsoxr libssh libtheora libva libvdpau libvorbis \
-  libvpx libwebp libx11 libxcb libxml2 libxv ocl-icd \
-  opencore-amr openjpeg2 opus rav1e rubberband sdl2 \
-  snappy speex srt svt-av1 v4l-utils vapoursynth \
-  vid.stab vmaf vulkan-icd-loader vmaf libx264 libx265 \
-  libzimg libzmq
-
 USER builder
 
 WORKDIR /tmp
